@@ -1,0 +1,26 @@
+[package]
+name = "devlapse"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Periodically captures desktop screenshots into timestamped files for day-in-the-life reels."
+
+[features]
+default = ["capture"]
+# Real screen capture. Disable with --no-default-features to test the core headless (CI, containers).
+capture = ["dep:xcap", "dep:image", "dep:ctrlc"]
+
+[dependencies]
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+dirs = "5"
+xcap = { version = "0.9", optional = true }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"], optional = true }
+ctrlc = { version = "3", optional = true }
+
+[dev-dependencies]
+tempfile = "3"
+
+[[bin]]
+name = "devlapse"
+path = "src/main.rs"
+required-features = ["capture"]
